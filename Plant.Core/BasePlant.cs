@@ -336,5 +336,12 @@ namespace Plant.Core
 
     }
 
+      public IEnumerable<T> BuildList<T>(int numberOfInstances = 10, string variation = null)
+      {
+          for (var i = 0; i < numberOfInstances; i++)
+          {
+              yield return Build<T>(variation);
+          }
+      }
   }
 }
