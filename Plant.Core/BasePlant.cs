@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using Properties = System.Collections.Generic.IDictionary<Plant.Core.PropertyData, object>;
 using Blueprints = System.Collections.Generic.Dictionary<System.Type, System.Collections.Generic.IDictionary<Plant.Core.PropertyData, object>>;
 using Variations = System.Collections.Generic.Dictionary<string, System.Collections.Generic.IDictionary<Plant.Core.PropertyData, object>>;
@@ -338,10 +339,14 @@ namespace Plant.Core
 
       public IEnumerable<T> BuildList<T>(int numberOfInstances = 10, string variation = null)
       {
-          for (var i = 0; i < numberOfInstances; i++)
-          {
-              yield return Build<T>(variation);
-          }
+          return Enumerable.Range(0, numberOfInstances)
+                           .Select(i => Build<T>(variation));
+      }
+
+      public IEnumerable<T> BuildList<T>(int numberOfInstances, T userSpecifiedProperties)
+      {
+          return Enumerable.Range(0, numberOfInstances)
+                           .Select(i => Build(userSpecifiedProperties));
       }
   }
 }
